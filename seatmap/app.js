@@ -18,6 +18,13 @@ function __initSeatmapApp(){
   let venue1Tier = null;
   const ns = 'http://www.w3.org/2000/svg';
 
+  /** Venue rail (Orpheum / Golden Gate) — must not match `.step` in plan/review steppers. */
+  function getVenueRailSteps() {
+    const inFlow = document.querySelectorAll('#state-3 main .steps .row > .step');
+    if (inFlow.length >= 2) return inFlow;
+    return document.querySelectorAll('main > .steps .row > .step');
+  }
+
   // ---------- Filter chips ----------
   const tiersEl = document.getElementById('tiers');
   const allChip = document.createElement('button');
@@ -482,7 +489,7 @@ function __initSeatmapApp(){
     venue1Tier = null;
 
     // Reset stepper
-    const steps = document.querySelectorAll('.step');
+    const steps = getVenueRailSteps();
     if (steps[0]) {
       steps[0].classList.add('active');
       steps[0].classList.remove('done');
@@ -823,7 +830,7 @@ function __initSeatmapApp(){
 
   function transitionToVenue2() {
     // Stepper: mark step 1 done (checkmark), activate step 2
-    const steps = document.querySelectorAll('.step');
+    const steps = getVenueRailSteps();
     if (steps[0]) {
       steps[0].classList.remove('active');
       steps[0].classList.add('done');
